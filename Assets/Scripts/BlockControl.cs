@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class BlockControl : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        for (int i = 0; i < transform.childCount; i++)
         {
-            transform.position += Vector3.left;
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            transform.position += Vector3.right;
+            Vector2 childPos = transform.GetChild(i).position;
+
+            if (childPos.x > 0 && childPos.x < GameManager.Instance.width)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    transform.position += Vector3.left;
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    transform.position += Vector3.right;
+                }
+            }
         }
     }
 }
