@@ -396,8 +396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd83ece430de4a841910e9977ae491b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 0
-  height: 0
+  width: 10
+  height: 20
 --- !u!212 &691282887
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -456,7 +456,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691282885}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 10, z: 0}
+  m_LocalPosition: {x: 4.5, y: 9.5, z: 0}
   m_LocalScale: {x: 10, y: 20, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -745,6 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c7d6be6aef20648be95b8f379835c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_fallTime: 1
 --- !u!4 &2086596320
 Transform:
   m_ObjectHideFlags: 0
@@ -753,7 +754,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2086596318}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 10, z: 0}
+  m_LocalPosition: {x: 5, y: 13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 544369787}
