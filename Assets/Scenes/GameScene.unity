@@ -204,6 +204,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &439683115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 439683116}
+  m_Layer: 0
+  m_Name: RotatePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &439683116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439683115}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2086596320}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &509254359
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +263,7 @@ Transform:
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 2086596320}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &509254361
 SpriteRenderer:
@@ -314,7 +344,7 @@ Transform:
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 2086596320}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &544369788
 SpriteRenderer:
@@ -583,7 +613,7 @@ Transform:
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 2086596320}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &839521466
 SpriteRenderer:
@@ -664,7 +694,7 @@ Transform:
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
   m_Father: {fileID: 2086596320}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1948236119
 SpriteRenderer:
@@ -727,7 +757,7 @@ GameObject:
   - component: {fileID: 2086596320}
   - component: {fileID: 2086596319}
   m_Layer: 0
-  m_Name: T Square
+  m_Name: Block_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -745,7 +775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c7d6be6aef20648be95b8f379835c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fallTime: 1
+  rotateTransform: {fileID: 439683116}
 --- !u!4 &2086596320
 Transform:
   m_ObjectHideFlags: 0
@@ -757,6 +787,7 @@ Transform:
   m_LocalPosition: {x: 5, y: 13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 439683116}
   - {fileID: 544369787}
   - {fileID: 839521465}
   - {fileID: 1948236118}

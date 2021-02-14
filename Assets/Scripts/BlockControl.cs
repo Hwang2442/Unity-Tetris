@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BlockControl : MonoBehaviour
 {
-    public float m_fallTime = 1.0f;
+    private GameManager manager;        // 게임매니저
+    private float m_fallTime = 1.0f;    // 떨어지는 시간 설정
 
-    private GameManager manager;
+    [SerializeField]
+    private Transform rotateTransform;  // 회전할 기준
 
     void Start()
     {
@@ -17,18 +19,25 @@ public class BlockControl : MonoBehaviour
 
     void Update()
     {
+        // Move Left!!
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            transform.position += ValidMove(Vector3.left) ? Vector3.left : Vector3.zero;
+            transform.position += MoveDirection(Vector3.left) ? Vector3.left : Vector3.zero;
         }
+        // Move Right!!
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            transform.position += ValidMove(Vector3.right) ? Vector3.right : Vector3.zero;
+            transform.position += MoveDirection(Vector3.right) ? Vector3.right : Vector3.zero;
+        }
+        // Rotate!!
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            RotateDirection(Vector3.forward, 90);
         }
     }
     
     // 해당 방향으로 미리 이동해서 검사
-    private bool ValidMove(Vector3 direction)
+    private bool MoveDirection(Vector3 direction)
     {
         bool answer = true;
 
@@ -49,13 +58,29 @@ public class BlockControl : MonoBehaviour
         return answer;
     }
 
+    // 회전검사
+    private bool RotateDirection(Vector3 direction, float angle)
+    {
+        bool answer = true;
+
+        // 회전
+        transform.RotateAround(rotateTransform.position, direction, angle);
+
+        answer = MoveDirection(Vector3.zero);
+
+        // 다시 원래대로
+        if (!answer) transform.RotateAround(rotateTransform.position, direction, angle * -1.0f);
+
+        return answer;
+    }
+
     // 밑으로 이동하는 코루틴
     IEnumerator Co_MoveDown()
     {
         float t = 0;
 
         // 계속 내려갈 수 있을 때까지
-        while (ValidMove(Vector3.down))
+        while (MoveDirection(Vector3.down))
         {
             t += Time.deltaTime;
 
