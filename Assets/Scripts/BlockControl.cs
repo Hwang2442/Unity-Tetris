@@ -8,7 +8,7 @@ public class BlockControl : MonoBehaviour
     private float m_fallTime = 1.0f;    // 떨어지는 시간 설정
 
     [SerializeField]
-    private Transform rotateTransform;  // 회전할 기준
+    private Transform rotatePoint;      // 회전할 기준
 
     void Start()
     {
@@ -22,33 +22,36 @@ public class BlockControl : MonoBehaviour
         // Move Left!!
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            transform.position += MoveDirection(Vector3.left) ? Vector3.left : Vector3.zero;
+            MoveDirection(Vector3.left);
         }
         // Move Right!!
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            transform.position += MoveDirection(Vector3.right) ? Vector3.right : Vector3.zero;
+            MoveDirection(Vector3.right);
         }
         // Rotate!!
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            RotateDirection(Vector3.forward, 90);
+            RotateDirection(Vector3.forward);
         }
     }
     
-    // 해당 방향으로 미리 이동해서 검사
+    // 이동검사
     private bool MoveDirection(Vector3 direction)
     {
         bool answer = true;
 
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            int positionX = Mathf.RoundToInt((transform.GetChild(i).position + direction).x);   // 미리 이동해본 X좌표
-            int positionY = Mathf.RoundToInt((transform.GetChild(i).position + direction).y);   // 미리 이동해본 Y좌표
+        transform.position += direction;    // 이동
 
-            // 0 < X <= width, 0 < Y <= height
+        foreach (Transform child in transform)
+        {
+            int positionX = Mathf.CeilToInt(child.position.x);  
+            int positionY = Mathf.CeilToInt(child.position.y);
+
             if (positionX < 0 || positionX >= manager.width || positionY < 0 || positionY >= manager.height)
             {
+                transform.position -= direction;    // 원래대로
+
                 answer = false;
 
                 break;
@@ -59,17 +62,17 @@ public class BlockControl : MonoBehaviour
     }
 
     // 회전검사
-    private bool RotateDirection(Vector3 direction, float angle)
+    private bool RotateDirection(Vector3 direction, float angle = 90)
     {
         bool answer = true;
 
         // 회전
-        transform.RotateAround(rotateTransform.position, direction, angle);
+        transform.RotateAround(rotatePoint.position, direction, angle);
 
         answer = MoveDirection(Vector3.zero);
 
         // 다시 원래대로
-        if (!answer) transform.RotateAround(rotateTransform.position, direction, angle * -1.0f);
+        if (!answer) transform.RotateAround(rotatePoint.position, direction, angle * -1);
 
         return answer;
     }
@@ -80,7 +83,7 @@ public class BlockControl : MonoBehaviour
         float t = 0;
 
         // 계속 내려갈 수 있을 때까지
-        while (MoveDirection(Vector3.down))
+        while (true)
         {
             t += Time.deltaTime;
 
@@ -90,7 +93,7 @@ public class BlockControl : MonoBehaviour
             {
                 t = 0;
 
-                transform.position += Vector3.down;
+                if (!MoveDirection(Vector3.down)) break;
             }
 
             yield return null;
