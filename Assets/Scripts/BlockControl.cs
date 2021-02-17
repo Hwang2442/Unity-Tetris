@@ -32,7 +32,7 @@ public class BlockControl : MonoBehaviour
         // Rotate!!
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            RotateDirection(Vector3.forward);
+            RotateDirection();
         }
     }
     
@@ -43,14 +43,16 @@ public class BlockControl : MonoBehaviour
 
         transform.position += direction;    // 이동
 
-        foreach (Transform child in transform)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            int positionX = Mathf.CeilToInt(child.position.x);  
-            int positionY = Mathf.CeilToInt(child.position.y);
+            if (transform.GetChild(i) == rotatePoint) continue;
+
+            int positionX = Mathf.RoundToInt(transform.GetChild(i).position.x);
+            int positionY = Mathf.RoundToInt(transform.GetChild(i).position.y);
 
             if (positionX < 0 || positionX >= manager.width || positionY < 0 || positionY >= manager.height)
             {
-                transform.position -= direction;    // 원래대로
+                transform.position -= direction;
 
                 answer = false;
 
@@ -62,17 +64,15 @@ public class BlockControl : MonoBehaviour
     }
 
     // 회전검사
-    private bool RotateDirection(Vector3 direction, float angle = 90)
+    private bool RotateDirection()
     {
         bool answer = true;
 
-        // 회전
-        transform.RotateAround(rotatePoint.position, direction, angle);
+        transform.RotateAround(rotatePoint.position, Vector3.forward, 90);
 
         answer = MoveDirection(Vector3.zero);
 
-        // 다시 원래대로
-        if (!answer) transform.RotateAround(rotatePoint.position, direction, angle * -1);
+        if (!answer) transform.RotateAround(rotatePoint.position, Vector3.forward, -90);
 
         return answer;
     }
