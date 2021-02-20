@@ -236,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 10
   height: 20
+  blockSpawner: {fileID: 0}
 --- !u!212 &691282887
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -296,7 +297,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.5, y: 9.5, z: 0}
   m_LocalScale: {x: 10, y: 20, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1004546379}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -392,3 +394,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1004546378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1004546379}
+  - component: {fileID: 1004546380}
+  m_Layer: 0
+  m_Name: Spwaner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1004546379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004546378}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.05, y: 0.425, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 691282888}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1004546380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004546378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 442ee6774c2376f48908f79f66bacbcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blocks:
+  - {fileID: 8691015898765601282, guid: c7256f516a921a64084e4fde95a3524b, type: 3}
+  - {fileID: 1106659992658287940, guid: 38104bb1f9e9286478d4cbb36aa4cdba, type: 3}
+  - {fileID: 5351737702279394479, guid: 4bf15187ffb3daa40a257d85d9d1f608, type: 3}
+  - {fileID: 5701771702513602596, guid: 16f7e11dc1663934ba37c73bc237335c, type: 3}
+  - {fileID: 1140114010663885938, guid: 3be98a623794ec14cac31d6bc31b7917, type: 3}
+  - {fileID: 9221598661304395991, guid: f1364e85a454af34792f46aedb55b31c, type: 3}
+  - {fileID: 278981619148675261, guid: 2551058761a02b0418bf8fd75c91e203, type: 3}
+  block: {fileID: 0}

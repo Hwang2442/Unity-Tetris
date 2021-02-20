@@ -98,5 +98,9 @@ public class BlockControl : MonoBehaviour
 
             yield return null;
         }
+
+        this.enabled = false;
+
+        manager.blockSpawner.SpawnBlock();
     }
 }
