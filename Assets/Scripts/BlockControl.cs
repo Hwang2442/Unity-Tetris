@@ -50,7 +50,7 @@ public class BlockControl : MonoBehaviour
             int positionX = Mathf.RoundToInt(transform.GetChild(i).position.x);
             int positionY = Mathf.RoundToInt(transform.GetChild(i).position.y);
 
-            if (positionX < 0 || positionX >= manager.width || positionY < 0 || positionY >= manager.height)
+            if (positionX < 0 || positionX >= manager.width || positionY < 0 || positionY >= manager.height || manager.gird[positionX, positionY] != null)
             {
                 transform.position -= direction;
 
@@ -77,6 +77,82 @@ public class BlockControl : MonoBehaviour
         return answer;
     }
 
+    // 현재 블력의 위치 설정
+    private void AddToGrid()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i) == rotatePoint) continue;
+
+            int positionX = Mathf.RoundToInt(transform.GetChild(i).position.x);
+            int positionY = Mathf.RoundToInt(transform.GetChild(i).position.y);
+
+            manager.gird[positionX, positionY] = transform.GetChild(i);
+        }
+    }
+
+    // 라인을 체크하여 라인 삭제 및 떨어짐
+    private void CheckForLines()
+    {
+        // 위에서부터 체크해야 아래로 떨어트릴 수 있음
+        for (int i = manager.height - 1; i >= 0; i--)
+        {
+            if (HashLine(i))
+            {
+                DeleteLine(i);
+                RowDown(i);
+            }
+        }
+    }
+
+    // 해당 라인을 블록이 꽉 찾는지 확인
+    private bool HashLine(int i)
+    {
+        bool answer = true;
+
+        for (int j = 0; j < manager.width; j++)
+        {
+            // 해당 좌표에 블럭이 없다면
+            // 라인이 전부 꽉 찬게 아님...
+            if (manager.gird[j, i] == null)
+            {
+                answer = false;
+
+                break;
+            }
+        }
+
+        return answer;
+    }
+
+    // 라인 삭제
+    private void DeleteLine(int i)
+    {
+        for (int j = 0; j < manager.width; j++)
+        {
+            Destroy(manager.gird[j, i].gameObject);
+
+            manager.gird[j, i] = null;
+        }
+    }
+
+    // 삭제된 라인 위의 모든 블럭들 내리기
+    private void RowDown(int lineNum)
+    {
+        for (int i = lineNum; i < manager.height; i++)
+        {
+            for (int j = 0; j < manager.width; j++)
+            {
+                if (manager.gird[j, i] != null)
+                {
+                    manager.gird[j, i - 1] = manager.gird[j, i];
+                    manager.gird[j, i - 1].position += Vector3.down;
+                    manager.gird[j, i] = null;
+                }
+            }
+        }
+    }
+
     // 밑으로 이동하는 코루틴
     IEnumerator Co_MoveDown()
     {
@@ -93,12 +169,18 @@ public class BlockControl : MonoBehaviour
             {
                 t = 0;
 
-                if (!MoveDirection(Vector3.down)) break;
+                if (!MoveDirection(Vector3.down))
+                {
+                    AddToGrid();
+                    CheckForLines();
+
+                    break;
+                }
             }
 
             yield return null;
         }
-
+        
         this.enabled = false;
 
         manager.blockSpawner.SpawnBlock();

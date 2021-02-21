@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public int width;
-    public int height;
+    public int width = 10;
+    public int height = 20;
+
+    public Transform[,] gird;
 
     public BlockSpawner blockSpawner;
 
@@ -15,14 +17,13 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
+        gird = new Transform[width, height];
+
         blockSpawner = transform.GetComponentInChildren<BlockSpawner>();
     }
 
     void Start()
     {
-        width = (int)transform.localScale.x;
-        height = (int)transform.localScale.y;
-
         blockSpawner.SpawnBlock();
     }
 
