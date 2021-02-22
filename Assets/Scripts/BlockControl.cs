@@ -10,11 +10,13 @@ public class BlockControl : MonoBehaviour
     [SerializeField]
     private Transform rotatePoint;      // 회전할 기준
 
+    Coroutine coroutine;
+
     void Start()
     {
         manager = GameManager.Instance;
 
-        StartCoroutine(Co_MoveDown());
+        coroutine = StartCoroutine(Co_MoveDown());
     }
 
     void Update()
@@ -33,6 +35,11 @@ public class BlockControl : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             RotateDirection();
+        }
+        // FullDown
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            FullDown();
         }
     }
     
@@ -151,6 +158,21 @@ public class BlockControl : MonoBehaviour
                 }
             }
         }
+    }
+
+    // 바로 내려버림~~
+    private void FullDown()
+    {
+        while (MoveDirection(Vector3.down)) ;
+
+        AddToGrid();
+        CheckForLines();
+
+        if (coroutine != null) StopCoroutine(coroutine);
+
+        this.enabled = false;
+
+        manager.blockSpawner.SpawnBlock();
     }
 
     // 밑으로 이동하는 코루틴

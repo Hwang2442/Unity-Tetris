@@ -19,12 +19,14 @@ public class GameManager : MonoBehaviour
 
         gird = new Transform[width, height];
 
-        blockSpawner = transform.GetComponentInChildren<BlockSpawner>();
+        //blockSpawner = transform.GetComponentInChildren<BlockSpawner>();
+
+        DontDestroyOnLoad(this);
     }
 
     void Start()
     {
-        blockSpawner.SpawnBlock();
+        //blockSpawner.SpawnBlock();
     }
 
     void Update()
