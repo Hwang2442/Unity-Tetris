@@ -1,36 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public int width = 10;
-    public int height = 20;
-
-    public Transform[,] gird;
-
-    public BlockSpawner blockSpawner;
-
     private void Awake()
     {
         Instance = this;
-
-        gird = new Transform[width, height];
-
-        //blockSpawner = transform.GetComponentInChildren<BlockSpawner>();
 
         DontDestroyOnLoad(this);
     }
 
     void Start()
     {
-        //blockSpawner.SpawnBlock();
+
     }
 
-    void Update()
+    // 게임 씬 로드
+    public void LoadGameScene()
     {
-        
+        SceneManager.LoadScene(1);
+    }
+    // 인트로 씬 로드
+    public void LoadIntroScene()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void GameQuit()
+    {
+        Application.Quit();
     }
 }
