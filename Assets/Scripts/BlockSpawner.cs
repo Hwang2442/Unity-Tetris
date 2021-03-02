@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BlockSpawner : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class BlockSpawner : MonoBehaviour
     [SerializeField]
     private Transform holdPoint;            // 홀드 블럭을 표시할 위치
 
+    [SerializeField, Space]
+    private Image[] scoreImages;            // 점수를 표시할 이미지
+    [SerializeField]
+    private Sprite[] numberSprites;         // 숫자 Sprite
+
     private Queue<SpriteRenderer> blocks;   // 블럭들 (오브젝트 풀링용)
 
     private int m_nextTetromino = -1;       // 다음 블럭
@@ -27,6 +33,8 @@ public class BlockSpawner : MonoBehaviour
     private int m_nowTetromino = -1;        // 현재 블럭
     private int m_nowSpriteColor = -1;      // 현재 색깔
     private int m_nextSpriteColor = -1;     // 다음 색깔
+
+    private int m_score = 0;                // 점수 (라인을 채운 횟수)
 
     private void Start()
     {
@@ -160,5 +168,20 @@ public class BlockSpawner : MonoBehaviour
     public void GameOver()
     {
 
+    }
+
+    public void ScoreChange()
+    {
+        int score = ++m_score;
+
+        if (score < 1000)
+        {
+            for (int i = scoreImages.Length - 1; i >= 0; i--)
+            {
+                scoreImages[i].sprite = numberSprites[score % 10];
+
+                score /= 10;
+            }
+        }
     }
 }

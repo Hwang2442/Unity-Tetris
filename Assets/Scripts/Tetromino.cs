@@ -147,6 +147,8 @@ public class Tetromino : MonoBehaviour
                 DeleteLine(i);
                 // 라인 떨구기
                 RowDown(i);
+                // 점수
+                spawner.ScoreChange();
             }
         }
     }
