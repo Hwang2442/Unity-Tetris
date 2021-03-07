@@ -27,8 +27,6 @@ public class BlockSpawner : MonoBehaviour
     private Sprite[] numberSprites;         // 숫자 Sprite
 
     [SerializeField, Space]
-    private GameObject tetrisSpace;
-    [SerializeField]
     private UiManager ui;
 
     private Queue<SpriteRenderer> blocks;   // 블럭들 (오브젝트 풀링용)
