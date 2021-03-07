@@ -26,6 +26,11 @@ public class BlockSpawner : MonoBehaviour
     [SerializeField]
     private Sprite[] numberSprites;         // 숫자 Sprite
 
+    [SerializeField, Space]
+    private GameObject tetrisSpace;
+    [SerializeField]
+    private UiManager ui;
+
     private Queue<SpriteRenderer> blocks;   // 블럭들 (오브젝트 풀링용)
 
     private int m_nextTetromino = -1;       // 다음 블럭
@@ -167,7 +172,10 @@ public class BlockSpawner : MonoBehaviour
 
     public void GameOver()
     {
+        SoundManager.Instance.Stop();
+        SoundManager.Instance.PlayOneShot("FX_GameOver");
 
+        ui.ShowPanelOver(true);
     }
 
     public void ScoreChange()

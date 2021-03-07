@@ -9,7 +9,7 @@ public class Tetromino : MonoBehaviour
 
     [SerializeField, Space]
     private Transform rotationPoint;    // 회전 축
-    public Vector3[] blockPositions;   // 블럭의 위치
+    public Vector3[] blockPositions;    // 블럭의 위치
 
     private float m_fallingTime = 1;    // 떨어지는 딜레이
 
@@ -47,9 +47,10 @@ public class Tetromino : MonoBehaviour
         // Hold
         else if (Input.GetKeyDown(KeyCode.C))
         {
-            StopCoroutine(fallingCoroutine);
+            StopCoroutine(fallingCoroutine);    // 코루틴 종료
 
-            BlockReturn();
+            BlockReturn();                      // 블럭 반납
+
             gameObject.SetActive(false);
 
             spawner.HoldBlock();
@@ -69,14 +70,16 @@ public class Tetromino : MonoBehaviour
             int positionX = Mathf.RoundToInt(transform.GetChild(i).position.x);
             int positionY = Mathf.RoundToInt(transform.GetChild(i).position.y);
 
-            //if (positionX < 0 || positionX >= spawner.width || positionY < 0 || positionY >= spawner.height || spawner.grid[positionX, positionY] != null)
-            if (positionX < 0 || positionX >= spawner.width || positionY < 0 || spawner.grid[positionX, positionY] != null)
+            if (positionY < spawner.height)
             {
-                transform.position -= direction;
+                if (positionX < 0 || positionX >= spawner.width || positionY < 0 || spawner.grid[positionX, positionY] != null)
+                {
+                    transform.position -= direction;
 
-                answer = false;
+                    answer = false;
 
-                break;
+                    break;
+                }
             }
         }
 
@@ -105,24 +108,32 @@ public class Tetromino : MonoBehaviour
 
         StopCoroutine(fallingCoroutine);
 
-        AddToGrid();
-        CheckForLines();
-
-        for (int i = 0; i < transform.childCount; i++)
+        if (AddToGrid())
         {
-            if (rotationPoint == transform.GetChild(i)) continue;
+            SoundManager.Instance.PlayOneShot("FX_Common");
 
-            transform.GetChild(i).parent = spawner.transform;
+            CheckForLines();
 
-            i--;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (rotationPoint == transform.GetChild(i)) continue;
+
+                transform.GetChild(i).parent = spawner.transform;
+
+                i--;
+            }
+
+            gameObject.SetActive(false);
+
+            spawner.SpawnBlock();
         }
-
-        gameObject.SetActive(false);
-
-        spawner.SpawnBlock();
+        else
+        {
+            spawner.GameOver();
+        }
     }
 
-    private void AddToGrid()
+    private bool AddToGrid()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -131,8 +142,16 @@ public class Tetromino : MonoBehaviour
             int positionX = Mathf.RoundToInt(transform.GetChild(i).position.x);
             int positionY = Mathf.RoundToInt(transform.GetChild(i).position.y);
 
+            // 꽉 찬 경우
+            if (positionY >= spawner.height)
+            {
+                return false;
+            }
+
             spawner.grid[positionX, positionY] = transform.GetChild(i);
         }
+
+        return true;
     }
 
     // 라인 검사
@@ -237,20 +256,28 @@ public class Tetromino : MonoBehaviour
             yield return null;
         }
 
-        AddToGrid();
-        CheckForLines();
-
-        for (int i = 0; i < transform.childCount; i++)
+        if (AddToGrid())
         {
-            if (rotationPoint == transform.GetChild(i)) continue;
+            SoundManager.Instance.PlayOneShot("FX_Common");
 
-            transform.GetChild(i).parent = spawner.transform;
+            CheckForLines();
 
-            i--;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (rotationPoint == transform.GetChild(i)) continue;
+
+                transform.GetChild(i).parent = spawner.transform;
+
+                i--;
+            }
+
+            gameObject.SetActive(false);
+
+            spawner.SpawnBlock();
         }
-
-        gameObject.SetActive(false);
-
-        spawner.SpawnBlock();
+        else
+        {
+            spawner.GameOver();
+        }
     }
 }
